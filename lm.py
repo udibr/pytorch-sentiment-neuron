@@ -77,7 +77,8 @@ def tokenize(path):
         print(tokens, nlines)
         # Tokenize file content
         with open(path, 'r') as f:
-            ids = torch.zeros(torch.ByteTensor(nlines*TIMESTEPS))
+            ids = torch.ByteTensor(nlines*TIMESTEPS)
+            ids[:] = 0
             token = 0
             for line in tqdm(f,total=nlines):
                 c = 0
