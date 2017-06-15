@@ -67,7 +67,7 @@ def tokenize(path):
         with open(path, 'r') as f:
             tokens = 0
             for line in f:              
-                tokens += len(line.encode())
+                tokens += len(line)
                 
         print(tokens)
         # Tokenize file content
@@ -76,8 +76,8 @@ def tokenize(path):
             token = 0
             for line in f:
                 
-                for char in line.encode():
-                    ids[token] = char
+                for char in line:
+                    ids[token] = ord(char)
                     token += 1
 
         return ids
