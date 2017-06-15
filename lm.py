@@ -87,9 +87,10 @@ def tokenize(path):
                     c += 1
                     if c == TIMESTEPS:
                         break
-                for i in range(c,TIMESTEPS):
-                    ids[token] = 0
-                    token += 1
+                n = TIMESTEPS - c
+                if n > 0:
+                    ids[token:token+n] = 0
+                    token += n
 
         return ids
 
