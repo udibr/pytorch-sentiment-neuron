@@ -256,6 +256,13 @@ def train_epoch(epoch):
 		loss_avg = .99*loss_avg + .01*loss.data[0]/TIMESTEPS
 		if s % 10 == 0:
 			print('e%s %s / %s loss %.4f loss avg %.4f time %.4f grad_norm %.4f' % (epoch, s, n_batch, loss.data[0]/TIMESTEPS, loss_avg, time.time()-start, gn))
+        if s % (n_batch // 10) == 0:
+            checkpoint = {
+                'rnn': rnn,
+                'embed': embed,
+                'opt': opt,
+            }
+            torch.save(checkpoint, 'temp')
 
 
 for e in range(10):
