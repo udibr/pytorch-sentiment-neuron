@@ -9,6 +9,7 @@ import models
 import argparse
 import time
 import math
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser(description='lm.py')
 
@@ -78,7 +79,7 @@ def tokenize(path):
         with open(path, 'r') as f:
             ids = torch.ByteTensor(nlines*TIMESTEPS)
             token = 0
-            for line in f:
+            for line in tqdm(f,total=nlines):
                 c = 0
                 for char in line:
                     ids[token] = ord(char)
