@@ -60,24 +60,34 @@ torch.manual_seed(opt.seed)
 if opt.cuda:
 	torch.cuda.manual_seed(opt.seed)
 
+TIMESTEPS = opt.seq_length
+
 def tokenize(path):
         """Tokenizes a text file."""
         assert os.path.exists(path)
         # Count bytes
         with open(path, 'r') as f:
             tokens = 0
+            nlines = 0
             for line in f:              
                 tokens += len(line)
+                nlines += 1
                 
-        print(tokens)
+        print(tokens, nlines)
         # Tokenize file content
         with open(path, 'r') as f:
-            ids = torch.ByteTensor(tokens)
+            ids = torch.ByteTensor(nlines*TIMESTEPS)
             token = 0
             for line in f:
-                
+                c = 0
                 for char in line:
                     ids[token] = ord(char)
+                    token += 1
+                    c += 1
+                    if c == TIMESTEPS:
+                        break
+                for i in range(c,TIMESTEPS):
+                    ids[token] = 0
                     token += 1
 
         return ids
@@ -94,7 +104,6 @@ batch_size = opt.batch_size
 hidden_size =opt.rnn_size
 input_size = opt.embed_size
 data_size = 256
-TIMESTEPS = opt.seq_length
 
 if len(opt.load_model)>0:
     checkpoint = torch.load(opt.load_model)
