@@ -81,13 +81,9 @@ def tokenize(path):
             ids[:] = 0
             token = 0
             for line in tqdm(f,total=nlines):
-                c = 0
-                for char in line:
+                for char in line[:TIMESTEPS]:
                     ids[token] = ord(char)
                     token += 1
-                    c += 1
-                    if c == TIMESTEPS:
-                        break
 
         return ids
 
